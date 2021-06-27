@@ -2,10 +2,17 @@ const grid = document.querySelector('.grid')
 let currentShooterIndex = 202
 let width = 15
 let direction = 1
-let speed = 100
+let speed = 200
 let invadersId = null
 let goingRight = true
+let aliensRemoved = []
+let levelStatus = 1
+
+
+
 const resultsDisplay = document.querySelector('.results')
+const scoreDisplay = document.querySelector('.score')
+const gameover = null// complete this message to display score and game over 
 
 for (let i = 0; i < 225; i++) {
     const square = document.createElement('div')
@@ -23,7 +30,9 @@ const alienInvaders = [
 
 function draw() {
     for (let i = 0; i < alienInvaders.length; i++) {
-        squares[alienInvaders[i]].classList.add('invader')
+        if(!aliensRemoved.includes(i)){
+            squares[alienInvaders[i]].classList.add('invader')
+        }
     }
 }
 
@@ -80,22 +89,24 @@ function moveInvaders() {
     }
 
     draw()
-// confirm if this is necessary 
-//set variable speed for levels 
-//win round function 
-
+    //set variable speed for levels 
+    //win round function 
+    
     if (squares[currentShooterIndex].classList.contains('invader','shooter')) {
-        alert("GAME OVER")
         resultsDisplay.innerHTML = 'GAME OVER'
         clearInterval(invadersId)
+        // confirm if this is necessary 
     }
 
     for (let i = 0; i < alienInvaders.length; i++) {
         if (alienInvaders[i] > squares.length){
-        alert("GAME OVER")
         resultsDisplay.innerHTML = 'GAME OVER'
         clearInterval(invadersId)
         }
+    }
+    if (aliensRemoved.length === alienInvaders.length) {
+        resultsDisplay.innerHTML = 'WINNER'
+        clearInterval(invadersId)
     }
 }
 
@@ -108,6 +119,7 @@ function shoot(e) {
         squares[currentLaserIndex].classList.remove('laser')
         currentLaserIndex -= width
         squares[currentLaserIndex].classList.add('laser')
+        
 
         if (squares[currentLaserIndex].classList.contains('invader')) {
             squares[currentLaserIndex].classList.remove('laser')
@@ -117,8 +129,12 @@ function shoot(e) {
           
             setTimeout(()=> squares[currentLaserIndex].classList.remove('boom'),300)
             clearInterval(laserId)
-        }
 
+            const alienRemoved = alienInvaders.indexOf(currentLaserIndex)
+            //display array of removed aliens as a score card 
+            aliensRemoved.push(alienRemoved)
+            scoreDisplay.innerHTML = aliensRemoved.length
+        }
     }
     switch(e.key) {
         //using space bar here

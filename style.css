@@ -1,9 +1,23 @@
+body{
+    align-items: center;
+    text-align: center;
+}
+
+#banner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 10px;
+
+}
 .grid {
     width: 300px;
     height: 300px;
     border: solid;
     display: flex;
     flex-wrap: wrap;
+   align-items: center;
+    background-image: url(./Media/space.jpeg);
 }
 
 .grid div {
@@ -12,20 +26,20 @@
 }
 
 .invader {
-    background-color: cornflowerblue;
+    background-image: url(./Media/Alien.png);
     border-radius: 10px;
 }
 
 .shooter {
-    background-color: black;
+    background-image: url(./Media/Player.png);
     border-radius: 10px;
     
 }
 
 .laser {
-    background-color: greenyellow;
+    background-image: url(./Media/laser.png);
 }
 
 .boom {
-    background-color: red;
+    background-image: url(./Media/boom.png);
 }
