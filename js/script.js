@@ -7,11 +7,16 @@ let invadersId = null
 let goingRight = true
 let aliensRemoved = []
 let levelStatus = 1
+let playStatus = true
+let laserBeam = new Audio("./media/laser.mp3")
+let boomSound = new Audio("./media/boom.wav")
 
 
 
 const resultsDisplay = document.querySelector('.results')
 const scoreDisplay = document.querySelector('.score')
+const levelDisplay = document.querySelector('.level')
+const restartButton = document.querySelector('.restart')
 const gameover = null// complete this message to display score and game over 
 
 for (let i = 0; i < 225; i++) {
@@ -36,9 +41,7 @@ function draw() {
     }
 }
 
-//add pictures for the aliens 
 
-draw()
 
 function remove() {
     for (let i = 0; i < alienInvaders.length; i++) {
@@ -88,11 +91,12 @@ function moveInvaders() {
         alienInvaders[i] += direction 
     }
 
-    draw()
+  draw()
     //set variable speed for levels 
     //win round function 
     
     if (squares[currentShooterIndex].classList.contains('invader','shooter')) {
+        resultsDisplay.style.color = "red"
         resultsDisplay.innerHTML = 'GAME OVER'
         clearInterval(invadersId)
         // confirm if this is necessary 
@@ -100,17 +104,28 @@ function moveInvaders() {
 
     for (let i = 0; i < alienInvaders.length; i++) {
         if (alienInvaders[i] > squares.length){
-        resultsDisplay.innerHTML = 'GAME OVER'
-        clearInterval(invadersId)
+            resultsDisplay.style.color = "red"
+            resultsDisplay.innerHTML = 'GAME OVER'
         }
     }
     if (aliensRemoved.length === alienInvaders.length) {
-        resultsDisplay.innerHTML = 'WINNER'
+        resultsDisplay.style.color = "green"
+        resultsDisplay.innerHTML = 'WINNER!!'
         clearInterval(invadersId)
+        speed = speed +=20
+        levelStatus.innerHTML = levelStatus +=1
     }
 }
 
 invadersId = setInterval(moveInvaders, speed)
+
+function playRestart(){
+    if (playStatus === true){
+        playStatus = false 
+    } else {
+        playStatus = true
+    }
+}
 
 function shoot(e) {
     let laserId
@@ -126,6 +141,7 @@ function shoot(e) {
             squares[currentLaserIndex].classList.remove('invader')
             squares[currentLaserIndex].classList.add('boom')
             //add sound to these events 
+            boomSound.play()
           
             setTimeout(()=> squares[currentLaserIndex].classList.remove('boom'),300)
             clearInterval(laserId)
@@ -140,7 +156,9 @@ function shoot(e) {
         //using space bar here
         case ' ': 
         laserId = setInterval(moveLaser, 75)
+        laserBeam.play()
     }
 }
 
 document.addEventListener('keydown',shoot)
+

@@ -1,13 +1,11 @@
-body{
-    align-items: center;
-    text-align: center;
-}
-
 #banner {
     display: flex;
-    flex-direction: row;
+    flex-direction: inline;
     justify-content: space-between;
+    align-items: center;
     margin: 10px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border-radius: 40px;
 
 }
 .grid {
@@ -15,8 +13,9 @@ body{
     height: 300px;
     border: solid;
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
-   align-items: center;
     background-image: url(./Media/space.jpeg);
 }
 
