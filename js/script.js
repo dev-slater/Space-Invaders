@@ -1,8 +1,8 @@
 const grid = document.querySelector('.grid')
-let currentShooterIndex = 202
+let currentShooterIndex = 200
 let width = 15
 let direction = 1
-let speed = 200
+let speed = 300
 let invadersId = null
 let goingRight = true
 let aliensRemoved = []
@@ -17,7 +17,7 @@ const resultsDisplay = document.querySelector('.results')
 const scoreDisplay = document.querySelector('.score')
 const levelDisplay = document.querySelector('.level')
 const restartButton = document.querySelector('.restart')
-const gameover = null// complete this message to display score and game over 
+
 
 for (let i = 0; i < 225; i++) {
     const square = document.createElement('div')
@@ -27,10 +27,9 @@ for (let i = 0; i < 225; i++) {
 const squares = Array.from(document.querySelectorAll('.grid div'))
 
 
-const alienInvaders = [
+let alienInvaders = [
     0,1,2,3,4,5,6,7,8,9,
-    15,16,17,18,19,20,21,22,23,24,
-    30,31,32,33,34,35,36,37,38,39
+    15,16,17,18,19,20,21,22,23,24
 ]
 
 function draw() {
@@ -92,14 +91,12 @@ function moveInvaders() {
     }
 
   draw()
-    //set variable speed for levels 
-    //win round function 
+
     
     if (squares[currentShooterIndex].classList.contains('invader','shooter')) {
         resultsDisplay.style.color = "red"
         resultsDisplay.innerHTML = 'GAME OVER'
         clearInterval(invadersId)
-        // confirm if this is necessary 
     }
 
     for (let i = 0; i < alienInvaders.length; i++) {
@@ -112,48 +109,60 @@ function moveInvaders() {
         resultsDisplay.style.color = "green"
         resultsDisplay.innerHTML = 'WINNER!!'
         clearInterval(invadersId)
-        speed = speed +=20
-        levelStatus.innerHTML = levelStatus +=1
+        levelStatus += 1
+        levelDisplay.innerHTML = levelStatus  
+        alienInvaders.push(30,31,32,33,34,35,36,37,38,39)
     }
 }
 
-invadersId = setInterval(moveInvaders, speed)
 
 function playRestart(){
     if (playStatus === true){
-        playStatus = false 
+        invadersId = setInterval(moveInvaders, speed)
+        console.log("started game")
+        playStatus = false
     } else {
+        clearInterval(invadersId)
+        aliensRemoved = []
+        draw()
+        invadersId = setInterval(moveInvaders, speed)
+        console.log("restarted game")
         playStatus = true
     }
 }
+
 
 function shoot(e) {
     let laserId
     let currentLaserIndex = currentShooterIndex
     function moveLaser() {
+        if (squares[currentLaserIndex].classList.contains('upper')){
+            squares[currentLaserIndex].classList.remove('laser') 
+        }
+
         squares[currentLaserIndex].classList.remove('laser')
         currentLaserIndex -= width
         squares[currentLaserIndex].classList.add('laser')
+        
         
 
         if (squares[currentLaserIndex].classList.contains('invader')) {
             squares[currentLaserIndex].classList.remove('laser')
             squares[currentLaserIndex].classList.remove('invader')
             squares[currentLaserIndex].classList.add('boom')
-            //add sound to these events 
+           
             boomSound.play()
           
             setTimeout(()=> squares[currentLaserIndex].classList.remove('boom'),300)
             clearInterval(laserId)
 
             const alienRemoved = alienInvaders.indexOf(currentLaserIndex)
-            //display array of removed aliens as a score card 
             aliensRemoved.push(alienRemoved)
             scoreDisplay.innerHTML = aliensRemoved.length
         }
+
     }
     switch(e.key) {
-        //using space bar here
         case ' ': 
         laserId = setInterval(moveLaser, 75)
         laserBeam.play()
