@@ -19,12 +19,16 @@
     background-image: url(./Media/space.jpeg);
 }
 
-.upper {
-    width: 300px;
-    height: 5px;
-
+body {
+    background-color: silver;
 }
 
+.center {
+    height: auto;
+    width: auto 0;
+    display: flex;
+   justify-content: center;
+}
 .grid div {
     width: 20px;
     height: 20px;

@@ -122,7 +122,6 @@ function playRestart(){
         console.log("started game")
         playStatus = false
     } else {
-        clearInterval(invadersId)
         aliensRemoved = []
         draw()
         invadersId = setInterval(moveInvaders, speed)
@@ -135,16 +134,17 @@ function playRestart(){
 function shoot(e) {
     let laserId
     let currentLaserIndex = currentShooterIndex
-    function moveLaser() {
-        if (squares[currentLaserIndex].classList.contains('upper')){
-            squares[currentLaserIndex].classList.remove('laser') 
-        }
+    function moveLaser() {    
 
-        squares[currentLaserIndex].classList.remove('laser')
-        currentLaserIndex -= width
-        squares[currentLaserIndex].classList.add('laser')
-        
-        
+   
+
+       squares[currentLaserIndex].classList.remove('laser')
+       if (currentLaserIndex > 1){
+           currentLaserIndex -= width
+           squares[currentLaserIndex].classList.add('laser')
+       }
+    
+ 
 
         if (squares[currentLaserIndex].classList.contains('invader')) {
             squares[currentLaserIndex].classList.remove('laser')
@@ -164,8 +164,10 @@ function shoot(e) {
     }
     switch(e.key) {
         case ' ': 
-        laserId = setInterval(moveLaser, 75)
+      laserId = setInterval(moveLaser, 75)
         laserBeam.play()
+
+        break
     }
 }
 
