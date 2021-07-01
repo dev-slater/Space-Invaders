@@ -27,3 +27,4 @@ Add levels that push new invaders into grid and/or speed up game
 Increase grid size, next step is to multiply by 3x
 Make sure latest version is being deployed with github pages 
 Sound effects do not work on github pages, source files locally?
+If you do not click out of the play button , the game speeds up 
